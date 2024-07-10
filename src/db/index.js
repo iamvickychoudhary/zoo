@@ -5,6 +5,8 @@ import { Sequelize } from "sequelize"
 const sequelize = new Sequelize(DB_NAME, 'root', 'root', {
     host: 'localhost',
     dialect: "mysql",
+    // disable logging
+    logging: false
 });
 
 const connectDB = async () => {
