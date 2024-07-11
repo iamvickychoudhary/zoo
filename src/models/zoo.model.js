@@ -1,29 +1,33 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from "../db/index.js"
+const User = require('./user.model.js');
 
-const Zoo = sequelize.define(
-  'Zoo',
-  {
-    // Model attributes are defined here
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    animal_tags: {
-      type: DataTypes.STRING,
-      // allowNull defaults to true
-    },
-    state: {
-        type: DataTypes.STRING,
-        // allowNull defaults to true
-      },
+const Zoo = sequelize.define('Zoo', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
   },
-  {
-    // Other model options go here
+  user_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    allowNull: false,
   },
-);
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  animal_tags: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  },
+});
 
-/// `sequelize.define` also returns the model
-console.log(Zoo === sequelize.models.User); // true
+// Define the association
+User.hasMany(Zoo, { foreignKey: 'user_id' });
+Zoo.belongsTo(User, { foreignKey: 'user_id' });
 
-export { Zoo }
+module.exports = Zoo;

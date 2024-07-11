@@ -1,24 +1,28 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from "../db/index.js"
 
-const User = sequelize.define(
-  'User',
-  {
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.STRING,
+const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true,
     },
   },
-  {
-    // Other model options go here
-    // tableName: 'users',
-
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-);
+});
 
-
-
-export { User }
+module.exports = User;
