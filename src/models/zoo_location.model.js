@@ -1,33 +1,28 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from "../db/index.js"
-const User = require('./user.model.js');
+const Zoo = require('./zoo.model.js');
 
-
-const UserLocation = sequelize.define('UserLocation', {
+const ZooLocation = sequelize.define('ZooLocation', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    user_id: {
+    zoo_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: User,
+        model: Zoo,
         key: 'id',
       },
       allowNull: false,
-    },
-    img_url: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
     website_url: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    mobile: {
+    img_url: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     number: {
       type: DataTypes.STRING,
@@ -56,7 +51,7 @@ const UserLocation = sequelize.define('UserLocation', {
   });
   
   // Define the association
-  User.hasMany(UserLocation, { foreignKey: 'user_id' });
-  UserLocation.belongsTo(User, { foreignKey: 'user_id' });
+  Zoo.hasMany(ZooLocation, { foreignKey: 'zoo_id' });
+  ZooLocation.belongsTo(Zoo, { foreignKey: 'zoo_id' });
   
-  module.exports = UserLocation;
+  module.exports = ZooLocation;

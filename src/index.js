@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 import { app } from './app.js'
 import { User } from "./models/user.model.js"
+import { UserLocation } from "./models/user.model.js"
 import { Zoo } from "./models/zoo.model.js"
 import { connectDB, sequelize } from "./db/index.js";
 
