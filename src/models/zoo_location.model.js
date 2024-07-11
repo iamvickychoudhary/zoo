@@ -8,49 +8,41 @@ const ZooLocation = sequelize.define('ZooLocation', {
       autoIncrement: true,
       primaryKey: true,
     },
-    zoo_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Zoo,
-        key: 'id',
-      },
-      allowNull: false,
-    },
+   
     website_url: {
       type: DataTypes.STRING,
-      allowNull: true,
+      // allowNull: true,
     },
     img_url: {
       type: DataTypes.STRING,
-      allowNull: true,
+      // allowNull: true,
     },
     number: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     area: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     pincode: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
   });
   
-  // Define the association
-  Zoo.hasMany(ZooLocation, { foreignKey: 'zoo_id' });
-  ZooLocation.belongsTo(Zoo, { foreignKey: 'zoo_id' });
+Zoo.hasMany(ZooLocation);
+ZooLocation.belongsTo(Zoo);
 export {ZooLocation} 

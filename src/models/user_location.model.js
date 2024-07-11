@@ -9,14 +9,7 @@ const UserLocation = sequelize.define('UserLocation', {
       autoIncrement: true,
       primaryKey: true,
     },
-    user_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: User,
-        key: 'id',
-      },
-      allowNull: false,
-    },
+   
     img_url: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -55,9 +48,7 @@ const UserLocation = sequelize.define('UserLocation', {
     },
   });
   
-  // Define the association
-  User.hasMany(UserLocation, { foreignKey: 'user_id' });
-  UserLocation.belongsTo(User, { foreignKey: 'user_id' });
-  console.log("test");
+  User.hasMany(UserLocation);
+  UserLocation.belongsTo(User);
   
   export {UserLocation} 

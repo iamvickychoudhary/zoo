@@ -8,17 +8,10 @@ const Zoo = sequelize.define('Zoo', {
     autoIncrement: true,
     primaryKey: true,
   },
-  user_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: User,
-      key: 'id',
-    },
-    allowNull: false,
-  },
+ 
   name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   animal_tags: {
     type: DataTypes.JSON,
@@ -26,12 +19,11 @@ const Zoo = sequelize.define('Zoo', {
   },
   state: {
     type: DataTypes.ENUM('100', '200'),
-    allowNull: false,
+    allowNull: true,
+    defaultValue: '100',  // Set default value here
   },
 });
 
-// Define the association
-User.hasMany(Zoo, { foreignKey: 'user_id' });
-Zoo.belongsTo(User, { foreignKey: 'user_id' });
-
+User.hasMany(Zoo);
+Zoo.belongsTo(User);
 export {Zoo}
