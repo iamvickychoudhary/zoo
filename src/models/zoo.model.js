@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from "../db/index.js"
-const User = require('./user.model.js');
+import {User} from './user.model.js';
 
 const Zoo = sequelize.define('Zoo', {
   id: {
@@ -24,10 +24,14 @@ const Zoo = sequelize.define('Zoo', {
     type: DataTypes.JSON,
     allowNull: true,
   },
+  state: {
+    type: DataTypes.ENUM('100', '200'),
+    allowNull: false,
+  },
 });
 
 // Define the association
 User.hasMany(Zoo, { foreignKey: 'user_id' });
 Zoo.belongsTo(User, { foreignKey: 'user_id' });
 
-module.exports = Zoo;
+export {Zoo}

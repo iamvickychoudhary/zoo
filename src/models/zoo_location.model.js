@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from "../db/index.js"
-const Zoo = require('./zoo.model.js');
+import {Zoo} from './zoo.model.js';
 
 const ZooLocation = sequelize.define('ZooLocation', {
     id: {
@@ -53,5 +53,4 @@ const ZooLocation = sequelize.define('ZooLocation', {
   // Define the association
   Zoo.hasMany(ZooLocation, { foreignKey: 'zoo_id' });
   ZooLocation.belongsTo(Zoo, { foreignKey: 'zoo_id' });
-  
-  module.exports = ZooLocation;
+export {ZooLocation} 
