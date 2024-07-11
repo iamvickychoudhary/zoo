@@ -2,9 +2,9 @@ import { DB_NAME } from "../constants.js"
 import { Sequelize } from "sequelize"
 
 
-const sequelize = new Sequelize(DB_NAME, 'root', 'root', {
-    host: 'localhost',
-    dialect: "mysql",
+const sequelize = new Sequelize(DB_NAME, process.env.USER, process.env.PASSWORD, {
+    host: process.env.HOST,
+    dialect: process.env.DIALECT,
     // disable logging
     logging: false
 });
