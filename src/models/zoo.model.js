@@ -2,7 +2,8 @@ import { DataTypes } from "sequelize";
 import {sequelize} from "../db/index.js"
 import {User} from './user.model.js';
 
-const Zoo = sequelize.define('Zoo', {
+const Zoo = sequelize.define('Zoo', 
+  {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -22,6 +23,15 @@ const Zoo = sequelize.define('Zoo', {
     allowNull: true,
     defaultValue: '100',  // Set default value here
   },
+},
+{
+  indexes: [
+    {
+      unique: false,
+      fields: ['name'],
+    },
+  ]
+
 });
 
 User.hasMany(Zoo);

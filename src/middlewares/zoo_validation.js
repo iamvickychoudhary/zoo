@@ -5,9 +5,6 @@ export const validateZooSave = [
   body('animal_tags')
   .notEmpty().withMessage('Animal tags are required')
   .isArray({ min: 1 }).withMessage('Animal tags must be an array and contain at least one element'),
-  body('state')
-  .isIn(['100', '200']).withMessage('State must be 100 or 200')
-  .notEmpty().withMessage('State is required'),
   body('zooLocation.website_url').isURL().withMessage('Website URL must be valid'),
   body('zooLocation.img_url')
   .notEmpty().withMessage('Image URL is required')
@@ -16,7 +13,7 @@ export const validateZooSave = [
   body('zooLocation.area').notEmpty().withMessage('Area is required'),
   body('zooLocation.city').notEmpty().withMessage('City is required'),
   body('zooLocation.pincode').isPostalCode('any').withMessage('Pincode must be valid'),
-  body('state').notEmpty().withMessage('State is required'),
+  body('zooLocation.state').notEmpty().withMessage('State is required'),
   body('zooLocation.country').notEmpty().withMessage('Country is required'),
   (req, res, next) => {
     const errors = validationResult(req);
