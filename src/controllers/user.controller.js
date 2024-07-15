@@ -1,23 +1,22 @@
 import { asyncHandler } from "../utils/asyncHandler.js"
 import {User} from "../models/user.model.js"
+import jwt from "jsonwebtoken"
+
 
 const loginUser = asyncHandler(async (req, res) => {
-    const vicky = User.build({
-         name: 'vicky' ,
-         email:"vicky@gmail.com",
-         password:"123456",
+    const { email, password } = req.body;
 
-        });
-    console.log(vicky instanceof User); // true
-    console.log(vicky.name); // "Jane"
-    await vicky.save();
-    console.log('Jane was saved to the database!');
-    console.log(vicky.toJSON()); // This is good!
-
-    res.status(200).json({
-        message: "ok",
-        data: vicky.toJSON()
-    })
+    try {
+      const user = await User.findOne({ where: { email } });
+      if (!user || user.password !== password) {
+        return res.status(422).send({ error: 'Invalid email or password.' });
+      }
+  
+      const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      res.send({ token });
+    } catch (error) {
+      res.status(500).send({ error: 'Something went wrong.' });
+    }
 })
 
 export {

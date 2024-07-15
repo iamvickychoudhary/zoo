@@ -3,7 +3,7 @@ import { app } from './app.js'
 import { User } from "./models/user.model.js"
 import { UserLocation } from "./models/user_location.model.js"
 import { Zoo } from "./models/zoo.model.js"
-import { ZooLocation } from "./models/zoo_location.model.js"
+import { Location } from "./models/zoo_location.model.js"
 
 import { connectDB, sequelize } from "./db/index.js";
 

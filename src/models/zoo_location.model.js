@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import {sequelize} from "../db/index.js"
 import {Zoo} from './zoo.model.js';
 
-const ZooLocation = sequelize.define('ZooLocation', {
+const Location = sequelize.define('Location', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -43,6 +43,6 @@ const ZooLocation = sequelize.define('ZooLocation', {
     },
   });
   
-Zoo.hasMany(ZooLocation);
-ZooLocation.belongsTo(Zoo);
-export {ZooLocation} 
+Zoo.hasMany(Location);
+Location.belongsTo(Zoo);
+export {Location} 
