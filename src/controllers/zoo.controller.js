@@ -4,10 +4,14 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { Zoo } from "../models/zoo.model.js"
 import { Location } from "../models/zoo_location.model.js"
 import { Op } from "sequelize"
+import fs from "fs"
+
 
 const save_zoo = asyncHandler(async (req, res) => {
-    const { name, animal_tags, zooLocation } = req.body;
+   
     try {
+        const { name, animal_tags } = req.body;
+        const img_path = req.file.path;
         const zooData = await Zoo.create({
             name: name,
             animal_tags: animal_tags,
@@ -15,14 +19,14 @@ const save_zoo = asyncHandler(async (req, res) => {
         });
         const LocationData = await Location.create({
             ZooId: zooData.id,
-            website_url: zooLocation.website_url,
-            img_url: zooLocation.img_url,
-            number: zooLocation.houseno,
-            area: zooLocation.area,
-            city: zooLocation.city,
-            pincode: zooLocation.pincode,
-            state: zooLocation.state,
-            country: zooLocation.state,
+            website_url: req.body.website_url,
+            img_url: img_path,
+            number: req.body.houseno,
+            area: req.body.area,
+            city: req.body.city,
+            pincode: req.body.pincode,
+            state: req.body.state,
+            country: req.body.state,
 
         });
         return res
@@ -43,10 +47,11 @@ const save_zoo = asyncHandler(async (req, res) => {
 
 const update_zoo = asyncHandler(async (req, res) => {
     const { id } = req.params; // assuming the zoo id is passed as a URL parameter
-    const { name, animal_tags, zooLocation } = req.body;
+    const { name, animal_tags, website_url, houseno, area, city, pincode, state, country } = req.body;
     try {
-        // Find the zoo by id
         const zoo = await Zoo.findByPk(id);
+        console.log("body file test", req.file);
+
         if (!zoo) {
             throw new ApiError(404, "Zoo not found");
         }
@@ -54,7 +59,6 @@ const update_zoo = asyncHandler(async (req, res) => {
         // Update zoo data
         zoo.name = name;
         zoo.animal_tags = animal_tags;
-        // Update UserId if needed, here it's set as static 1
         zoo.UserId = 1;
         await zoo.save();
 
@@ -63,16 +67,23 @@ const update_zoo = asyncHandler(async (req, res) => {
         if (!LocationData) {
             throw new ApiError(404, "Zoo location not found");
         }
+        if (req.file) {
+
+            // Delete the old image file if it exists
+            if ( LocationData.img_url) {
+                fs.unlinkSync(LocationData.img_url); 
+            }
+            LocationData.img_url = req.file.path;
+        }
 
         // Update zoo location data
-        LocationData.website_url = zooLocation.website_url;
-        LocationData.img_url = zooLocation.img_url;
-        LocationData.number = zooLocation.houseno;
-        LocationData.area = zooLocation.area;
-        LocationData.city = zooLocation.city;
-        LocationData.pincode = zooLocation.pincode;
-        LocationData.state = zooLocation.state;
-        LocationData.country = zooLocation.country;
+        LocationData.website_url = website_url;
+        LocationData.number = houseno;
+        LocationData.area = area;
+        LocationData.city = city;
+        LocationData.pincode = pincode;
+        LocationData.state = state;
+        LocationData.country = country;
         await LocationData.save();
 
         return res
